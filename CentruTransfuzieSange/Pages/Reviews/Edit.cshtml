@@ -1,0 +1,52 @@
+﻿@page
+@model CentruTransfuzieSange.Pages.Reviews.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>Review</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Review.ID" />
+            <div class="form-group">
+                <label asp-for="Review.AppointmentID" class="control-label"></label>
+                <input asp-for="Review.AppointmentID" class="form-control" />
+                <span asp-validation-for="Review.AppointmentID" class="text-danger"></span>
+            </div>
+             <div class="form-group">
+                <label asp-for="Review.Member" class="control-label"></label>
+                <input asp-for="Review.Member" class="form-control" />
+                <span asp-validation-for="Review.Member" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Review.Description" class="control-label"></label>
+                <input asp-for="Review.Description" class="form-control" />
+                <span asp-validation-for="Review.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Review.Doctor" class="control-label"></label>
+                <input asp-for="Review.Doctor" class="form-control" />
+                <span asp-validation-for="Review.Doctor" class="text-danger"></span>
+            </div>
+           
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using CentruTransfuzieSange.Data;
 using CentruTransfuzieSange.Models;
+using System.Drawing.Text;
+using CentruTransfuzieSange.Models.ViewModels;
 
 namespace CentruTransfuzieSange.Pages.Appointments
 {
@@ -19,17 +21,32 @@ namespace CentruTransfuzieSange.Pages.Appointments
             _context = context;
         }
 
-        public IList<Appointment> Appointment { get;set; } = default!;
+        public IList<Appointment> Appointment { get; set; } = default!;
 
-        public async Task OnGetAsync()
+        public AppointmentIndexData AppointmentData { get; set; }
+        public int AppointmentID { get; set; }
+        public int DoctorID { get; set;}
+       
+        public async Task OnGetAsync(int? id, int? doctorID)
         {
-            if (_context.Appointment != null)
-            {
-                Appointment = await _context.Appointment
+            AppointmentData = new AppointmentIndexData();
+            AppointmentData.Appointments=await _context.Appointment
                 .Include(a => a.Doctor)
                 .Include(a => a.MedicalService)
-                .Include(a => a.Member).ToListAsync();
+                .Include(a => a.Member)
+                .ToListAsync();
+
+            if(id != null)
+            {
+                AppointmentID=id.Value;
+                Appointment appointment = AppointmentData.Appointments
+                    .Where(a => a.ID == id.Value).Single();
+               
+                AppointmentData.Doctor = (ICollection<Doctor>)appointment.Doctor;
             }
+            }
+            55
+           
         }
     }
-}
+

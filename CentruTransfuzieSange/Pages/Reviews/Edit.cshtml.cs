@@ -11,9 +11,9 @@ using CentruTransfuzieSange.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
 
-namespace CentruTransfuzieSange.Pages.MedicalServices
+namespace CentruTransfuzieSange.Pages.Reviews
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Doctor")]
     public class EditModel : PageModel
     {
         private readonly CentruTransfuzieSange.Data.CentruTransfuzieSangeContext _context;
@@ -24,25 +24,25 @@ namespace CentruTransfuzieSange.Pages.MedicalServices
         }
 
         [BindProperty]
-        public MedicalService MedicalService { get; set; } = default!;
+        public Review Review { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.MedicalService == null)
+            if (id == null || _context.Review == null)
             {
                 return NotFound();
             }
 
-             var medicalService =  await _context.MedicalService
-                .Include(b=>b.Doctor)
+            var review =  await _context.Review
+                .Include(b => b.Member)
+                .Include(b => b.Appointment)
+                .Include(b => b.Doctor)
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (medicalService == null)
+            if (review == null)
             {
                 return NotFound();
             }
-            MedicalService = medicalService;
-            ViewData["DoctorID"] = new SelectList(_context.Doctor, "ID", "DoctorName");
-           
+            Review = review;
             return Page();
         }
 
@@ -55,7 +55,7 @@ namespace CentruTransfuzieSange.Pages.MedicalServices
                 return Page();
             }
 
-            _context.Attach(MedicalService).State = EntityState.Modified;
+            _context.Attach(Review).State = EntityState.Modified;
 
             try
             {
@@ -63,7 +63,7 @@ namespace CentruTransfuzieSange.Pages.MedicalServices
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!MedicalServiceExists(MedicalService.ID))
+                if (!ReviewExists(Review.ID))
                 {
                     return NotFound();
                 }
@@ -76,9 +76,9 @@ namespace CentruTransfuzieSange.Pages.MedicalServices
             return RedirectToPage("./Index");
         }
 
-        private bool MedicalServiceExists(int id)
+        private bool ReviewExists(int id)
         {
-          return _context.MedicalService.Any(e => e.ID == id);
+          return _context.Review.Any(e => e.ID == id);
         }
     }
 }

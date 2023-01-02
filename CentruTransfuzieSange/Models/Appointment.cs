@@ -13,6 +13,11 @@ namespace CentruTransfuzieSange.Models
         public Doctor? Doctor { get; set; }
         [DataType(DataType.Date)]
         public DateTime Date { get; set; }
+        [DataType(DataType.Time)]
+
         public DateTime Time { get; set; }
+        public ICollection<Review>? Reviews { get; set; }
+       
+
     }
 }

@@ -9,5 +9,7 @@ namespace CentruTransfuzieSange.Models
         public string Specialization { get; set; }
         public string? Phone { get; set; }
         public ICollection<MedicalService>? MedicalServices { get; set; }
+
+        public ICollection<Appointment>? Appointments { get; set; }
     }
 }

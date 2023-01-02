@@ -1,4 +1,5 @@
-﻿@page
+﻿@page "{id:int?}"
+
 @model CentruTransfuzieSange.Pages.Appointments.IndexModel
 
 @{
@@ -32,8 +33,14 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Appointment) {
-        <tr>
+@foreach (var item in Model.AppointmentData.Appointments) {
+            string selectedRow = "";
+            if(item.ID==Model.AppointmentID){
+                selectedRow = "table-success";
+            }
+            
+
+        <tr class="@selectedRow">
             <td>
                 @Html.DisplayFor(modelItem => item.Member.FullName)
             </td>
@@ -50,6 +57,7 @@
                 @Html.DisplayFor(modelItem => item.Time)
             </td>
             <td>
+                <a asp-page="./Index" asp-route-id="@item.ID">Select</a> |
                 <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
                 <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
                 <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>

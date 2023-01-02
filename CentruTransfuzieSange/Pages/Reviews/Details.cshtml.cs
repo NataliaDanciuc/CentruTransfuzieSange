@@ -7,12 +7,9 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using CentruTransfuzieSange.Data;
 using CentruTransfuzieSange.Models;
-using Microsoft.AspNetCore.Authorization;
-using System.Data;
 
-namespace CentruTransfuzieSange.Pages.MedicalServices
+namespace CentruTransfuzieSange.Pages.Reviews
 {
-    [Authorize(Roles = "Admin")]
     public class DetailsModel : PageModel
     {
         private readonly CentruTransfuzieSange.Data.CentruTransfuzieSangeContext _context;
@@ -22,25 +19,27 @@ namespace CentruTransfuzieSange.Pages.MedicalServices
             _context = context;
         }
 
-      public MedicalService MedicalService { get; set; }
+      public Review Review { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.MedicalService == null)
+            if (id == null || _context.Review == null)
             {
                 return NotFound();
             }
 
-            var medicalservice = await _context.MedicalService
-                                        .Include(b => b.Doctor)
-                                        .FirstOrDefaultAsync(m => m.ID == id);
-            if (medicalservice == null)
+            var review = await _context.Review
+                .Include(b => b.Member)
+                .Include(b => b.Appointment)
+                .Include(b => b.Doctor)
+                .FirstOrDefaultAsync(m => m.ID == id);
+            if (review == null)
             {
                 return NotFound();
             }
             else 
             {
-                MedicalService = medicalservice;
+                Review = review;
             }
             return Page();
         }

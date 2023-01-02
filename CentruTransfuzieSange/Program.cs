@@ -7,20 +7,25 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("AdminPolicy", policy =>policy.RequireRole("Admin"));
-    options.AddPolicy("DoctorPolicy", policy => policy.RequireRole("Doctor","Amin"));
+    options.AddPolicy("DoctorPolicy", policy => policy.RequireRole("Doctor","Admin"));
 });
 
 // Add services to the container.
 builder.Services.AddRazorPages(options =>
 {
     options.Conventions.AuthorizeFolder("/MedicalServices");
-    options.Conventions.AuthorizeFolder("/Appointments", "DoctorPolicy");
-   
+    options.Conventions.AuthorizeFolder("/Reviews");
+    options.Conventions.AuthorizeFolder("/Appointments");
+    options.Conventions.AuthorizeFolder("/Members");
+
     options.Conventions.AllowAnonymousToPage("/MedicalServices/Index");
     options.Conventions.AllowAnonymousToPage("/MedicalServices/Details");
     options.Conventions.AuthorizeFolder("/Members", "AdminPolicy");
-    options.Conventions.AuthorizeFolder("/Doctor/Edit", "DoctorPolicy");
-    options.Conventions.AuthorizePage("/Members/Details", "DoctorPolicy");
+    options.Conventions.AuthorizeFolder("/Reviews/Edit", "DoctorPolicy");
+    options.Conventions.AuthorizeFolder("/Reviews/Delete", "DoctorPolicy");
+    options.Conventions.AuthorizeFolder("/Reviews/Create", "DoctorPolicy");
+
+
 
 });
 builder.Services.AddDbContext<CentruTransfuzieSangeContext>(options =>

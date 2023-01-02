@@ -21,5 +21,7 @@ namespace CentruTransfuzieSange.Data
         public DbSet<CentruTransfuzieSange.Models.Appointment> Appointment { get; set; }
 
         public DbSet<CentruTransfuzieSange.Models.Member> Member { get; set; }
+
+        public DbSet<CentruTransfuzieSange.Models.Review> Review { get; set; }
     }
 }

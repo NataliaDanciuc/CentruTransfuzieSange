@@ -13,7 +13,7 @@ using System.Data;
 
 namespace CentruTransfuzieSange.Pages.Doctors
 {
-    [Authorize(Roles = "Doctor")]
+
     public class EditModel : PageModel
     {
         private readonly CentruTransfuzieSange.Data.CentruTransfuzieSangeContext _context;
