@@ -9,9 +9,12 @@ using CentruTransfuzieSange.Data;
 using CentruTransfuzieSange.Models;
 using System.Drawing.Text;
 using CentruTransfuzieSange.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace CentruTransfuzieSange.Pages.Appointments
 {
+    [Authorize(Roles = "Doctor")]
     public class IndexModel : PageModel
     {
         private readonly CentruTransfuzieSange.Data.CentruTransfuzieSangeContext _context;
@@ -31,9 +34,9 @@ namespace CentruTransfuzieSange.Pages.Appointments
         {
             AppointmentData = new AppointmentIndexData();
             AppointmentData.Appointments=await _context.Appointment
-                .Include(a => a.Doctor)
-                .Include(a => a.MedicalService)
+               .Include(a => a.MedicalService)
                 .Include(a => a.Member)
+                 .Include(a => a.Doctor)
                 .ToListAsync();
 
             if(id != null)
@@ -45,7 +48,7 @@ namespace CentruTransfuzieSange.Pages.Appointments
                 AppointmentData.Doctor = (ICollection<Doctor>)appointment.Doctor;
             }
             }
-            55
+            
            
         }
     }

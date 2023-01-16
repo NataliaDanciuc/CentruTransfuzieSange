@@ -23,15 +23,23 @@ namespace CentruTransfuzieSange.Pages.MedicalServices
         }
 
         public IList<MedicalService> MedicalService { get;set; } = default!;
-
-        public async Task OnGetAsync()
+        public int MedicalServiceID { get; set; }
+        public int DoctorID { get; set; }
+        public string CurrentFilter { get; set; }
+        public async Task OnGetAsync(int? id, int? doctorID, string searchString)
         {
-            
-            
-                MedicalService = await _context.MedicalService
+
+            CurrentFilter = searchString;
+            MedicalService = await _context.MedicalService
                 .Include(b=>b.Doctor)
                 .ToListAsync();
-            
+
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                MedicalService = (IList<MedicalService>)MedicalService.Where(b=>b.Doctor.DoctorName.Contains(searchString)
+                                                     || b.ServiceName.Contains(searchString));
+            }
         }
     }
 }

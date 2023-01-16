@@ -66,3 +66,19 @@
 }
     </tbody>
 </table>
+@if (Model.AppointmentData.Doctor != null)
+{
+    <h3>Doctors by Selected Appointment</h3>
+    <table class="table">
+
+        @foreach (var item in Model.AppointmentData.Appointments)
+        {
+            string selectedRow = "";
+            if (item.ID == Model.AppointmentID)
+            {
+                selectedRow = "table-success";
+            }
+            
+        }
+    </table>
+}
